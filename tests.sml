@@ -1,3 +1,5 @@
+(* this is a suite of example tests, which demonstrates some of the various expectations in MLSpec *)
+
 fun digitBad i = chr(i + ord #"0"); (* not very safe *)
 fun digitGood i = String.sub("0123456789", i); (* safer *)
 
