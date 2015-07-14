@@ -14,7 +14,7 @@ struct
 
 	fun testSummary (pass,fail) =
 		let val message =
-			if fail = 0 then "All " ^ (pluralize "test" pass) ^ " passed."
+			if fail = 0 then "All " ^ (pluralize "test" pass) ^ " passed"
 			else (pluralize "pass" pass) ^ ", " ^ (pluralize "fail" fail)
 		in "--> Summary: " ^ message ^ " <--"
 		end; 

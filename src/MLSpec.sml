@@ -60,10 +60,18 @@ structure MLSpec = struct
 			MLSHelpers.handleResults(!mlTestOutput, !passes, !fails, Config.getConfigTuple () ))
 		end;
 
-	fun expect candidate (StaticExpectation(func,msg)) =
+	fun expect candidate (StaticExpectation(func,posFail,negFail)) =
 		if func candidate then ExpectationPass
-		else ExpectationFail(msg)
-	  | expect candidate (TypedExpectation(func,msgFunc)) =
+		else ExpectationFail(posFail)
+	  | expect candidate (TypedExpectation(func, failureMsgFunc)) =
 	  	if func candidate then ExpectationPass
-	  	else ExpectationFail(msgFunc candidate);
+	  	else ExpectationFail(failureMsgFunc candidate false);
+
+	fun doNotExpect candidate (StaticExpectation(func,posFail,negFail)) =
+		if func candidate then ExpectationFail(negFail)
+		else ExpectationPass
+	  | doNotExpect candidate (TypedExpectation(func, failureMsgFunc)) =
+	  	if func candidate then ExpectationFail(failureMsgFunc candidate true)
+	  	else ExpectationPass;
+
 end;
