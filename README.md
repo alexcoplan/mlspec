@@ -6,7 +6,7 @@ is a lightweight testing library for Standard ML, inspired by [RSpec](http://rsp
 
 MLSpec has only been tested thus far with [Poly/ML](http://www.polyml.org). To use the library, you should call the `PolyML.make` function, like so:
 
-```
+```sml
 PolyML.make "mlspec/src";
 ```
 
@@ -14,13 +14,13 @@ MLSpec makes use of anonymous functions to act as an analogue of Ruby blocks. Th
 
 The most convenient way to write tests using MLSpec is best seen by example. Suppose we are testing a function, `add`, which simply adds two integers:
 
-```
+```sml
 fun add x y = x + y;
 
 let open MLSpec
 in
 	test (fn (describe) =>
-		describe "add" (fn (it) => (
+		describe "add" (fn (it) => 
 			it "should say that 2 + 2 is 4" [ expect (add 2 2) (toBeTheInteger 4) ]
 		)
 	)
@@ -43,17 +43,17 @@ Expectations are asserted by means of the functions `expect` and `doNotExpect`. 
 
 The following expectations are currently available:
 
-* Equivalence Expectations *
+__Equivalence Expectations__
 
- - `toBe (value)` : polymorphic equality matcher. use of this expectation is generally not advisable, since it cannot provide useful error messages, since ML does not support polymorphic printing
+ - `toBe (value)` : is a polymorphic equality matcher. This is useful to test equality (in a quick and dirty manner). However, use of this function is generally not advisable, since it cannot provide useful error messages due to ML's lack of support for polymorphic printing
  - `toBeTrue` : asserts the truth of a boolean value
  - `toBeFalse` : asserts the falsehood of a boolean value
  - `toBeTheInteger i` : asserts equality with the integer i, providing a clear failure message, giving the expected and actual values.
- - `toBeTheIntegerPair x`, `toBeTheIntegerList x`, `toBeTheBooleanList x`, `toBeTheStringList x` : all take a value x and perform equivalence matching, exactly like `toBeTheInteger i` for the type indicated by the name of the function
+ - all other equality expectations (defined in `MLSExpectations.sml`) perform the same actions as `toBeTheInteger i` for their respective types.
 
- * Exception Expectations *
+__Exception Expectations__
  - `toRaiseAnException` : asserts that a function of type `unit -> 'a` raises an exception
- - `toRaiseTheException e` : asserts that a function of type `unit -> 'a` raises the exception e
+ - `toRaiseTheException e` : asserts that a function of type `unit -> 'a` raises the exception `e`
 
-_ Note: Contributing expectations (especially equality matchers) to the project at this point is strongly encouraged. _
+_Note: Contributing expectations (especially equality matchers) to the project at this point is strongly encouraged._
 
