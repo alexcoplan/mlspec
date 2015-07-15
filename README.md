@@ -45,15 +45,29 @@ The following expectations are currently available:
 
 __Equivalence Expectations__
 
- - `toBe (value)` : is a polymorphic equality matcher. This is useful to test equality (in a quick and dirty manner). However, use of this function is generally not advisable, since it cannot provide useful error messages due to ML's lack of support for polymorphic printing
- - `toBeTrue` : asserts the truth of a boolean value
- - `toBeFalse` : asserts the falsehood of a boolean value
+ - `toBe (value)` : is a polymorphic equality matcher. This is useful to test equality (in a quick and dirty manner). However, use of this function is generally not advisable, since it cannot provide useful error messages due to ML's lack of support for polymorphic printing.
+ - `toBeTrue` : asserts the truth of a boolean value.
+ - `toBeFalse` : asserts the falsehood of a boolean value.
  - `toBeTheInteger i` : asserts equality with the integer i, providing a clear failure message, giving the expected and actual values.
- - all other equality expectations (defined in `MLSExpectations.sml`) perform the same actions as `toBeTheInteger i` for their respective types.
+ - All other equality expectations (defined in `MLSExpectations.sml`) have the same semantics as `toBeTheInteger i` for their respective types: examples are `toBeTheString s`, `toBeTheIntegerList l`, `toBeTheBooleanListList`, `toBeTheStringPair`.
 
 __Exception Expectations__
- - `toRaiseAnException` : asserts that a function of type `unit -> 'a` raises an exception
- - `toRaiseTheException e` : asserts that a function of type `unit -> 'a` raises the exception `e`
+ - `toRaiseAnException` : asserts that a function of type `unit -> 'a` raises an exception.
+ - `toRaiseTheException e` : asserts that a function of type `unit -> 'a` raises the exception `e`.
 
-_Note: Contributing expectations (especially equality matchers) to the project at this point is strongly encouraged._
+__Other Expectations__
+ - `toMatchThePredicate p` : asserts that the given value satisfies the predicate p. Again, this is polymorphic and therefore cannot give helpful error messages. A better alternative to this function may well be one of the predicate functions from the `MLSpec.Constructors` structure (see the next section).
 
+_Note: Contributions to expectations (especially equality matchers) are very welcome._
+
+Expectations are provided for most common combinations of built-in types. However, you will at some point undoubtedly need to define your own. For example, suppose you are testing a custom datatype such as a queue. The next section explains the `Constructors` API, which provdies a simple interface to create your own expectations.
+
+## Custom Expectations
+
+The `MLSpec.Constructors` structure provides functions for creating custom expectations. They are documented and defined in `MLSExpectations.sml`. `trees.sml` provides a detailed example of typical use of these functions.
+
+## Configuration
+
+`MLSpec.Config` provdies configuration, which is documented at its definition (in `MLSpec.sml`) and mainly useful for configuring MLSpec to work as part of an automated workflow, or behind an API.
+
+MLSpec may be configured to write test results to a file instead of the console by calling `MLSpec.Config.writeToFile "file_name.txt";`. This writes the results in the format `e,p,f`, where `e` is the number of errors, `p` is the number of passes and `f` is the number of failures. Calling `MLSpec.Config.includeBreakdown ()` will include the normal breakdown that MLSpec would output to the console in the file. 

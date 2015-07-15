@@ -1,8 +1,5 @@
 (* this is a suite of example tests which demonstrate some of the various expectations in MLSpec *)
 
-fun digitBad i = chr(i + ord #"0"); (* not very safe *)
-fun digitGood i = String.sub("0123456789", i); (* safer *)
-
 fun includes [] y = false
   | includes (x::xs) y = x=y orelse includes xs y
 
@@ -30,7 +27,7 @@ in
 			it "should say that 3 = 3 (using a primitive expectation)" [ expect 3 (toBe 3) ];
 			it "should say that 3 does not equal 2" [ doNotExpect 3 (toBeTheInteger 2) ];
 			it "should say that 2 + 2 = 4" [ expect (2+2) (toBeTheInteger 4) ]
-		))
+		));
 
 		describe "bomb (exception tester)" (fn (it) => (
 			it "should not blow up for 0" [ doNotExpect (fn () => bomb 0) toRaiseAnException ];
@@ -56,24 +53,6 @@ in
 			it "should accept the days 1-28 for every month" (expectCommonDaysValid months 28)
 
 			) end
-		);
-
-		(* used for testing failure messages in MLSpec (clearly, many of these intentionally fail)...
-
-		describe "MLSpec (exceptions)" (fn (it) => (
-			it "should blow up for 0" [ expect (fn () => bomb 0) toRaiseAnException ];
-			it "should not blow up for 0" [ doNotExpect (fn () => bomb 0) toRaiseAnException ];
-			it "should blow up for 1" [ expect (fn () => bomb 1) toRaiseAnException ];
-			it "should not blow up for 1" [ doNotExpect (fn () => bomb 1) toRaiseAnException ];
-
-			it "should raise Cheese for 0" [ expect (fn () => bomb 0) (toRaiseTheException Cheese) ];
-			it "should not raise Cheese for 0" [ doNotExpect (fn () => bomb 0) (toRaiseTheException Cheese) ];
-			it "should raise Cheese for 1" [ expect (fn () => bomb 1) (toRaiseTheException Cheese) ];
-			it "should not raise Cheese for 1" [ doNotExpect (fn () => bomb 1) (toRaiseTheException Cheese) ];
-			it "should raise Cheese for 2" [ expect (fn () => bomb 2) (toRaiseTheException Cheese) ];
-			it "should not raise Cheese for 2" [ doNotExpect (fn () => bomb 2) (toRaiseTheException Cheese) ]
-		));
-
-		*)
+		)
 	))
 end;
