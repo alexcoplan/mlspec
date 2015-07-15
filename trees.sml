@@ -43,7 +43,7 @@ in
 			it "should say that t1 is an even tree" [ expect t1 toOnlyContainEvenIntegers ];
 			it "should say that t2 is not an even tree" [ doNotExpect t2 toOnlyContainEvenIntegers ];
 			it "should fail when expecting t1 to sum to 20" [ expect t1 (toSumToTheInteger 20) ];
-			it "shuold say that t2 sums to 8" [ expect t2 (toSumToTheInteger 8) ]
+			it "should say that t2 sums to 8" [ expect t2 (toSumToTheInteger 8) ]
 		))
 	))
 end
